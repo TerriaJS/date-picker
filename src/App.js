@@ -62,7 +62,7 @@ class App extends Component {
     const year = this.state.year;
     return <div className='grid-grid'>{monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
              <span className='grid-label'>{m}</span>
-             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d] ? 'is-active' : ''} key={d} ></span>)}</span></div>)}
+             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d] ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
            </div>
   }
 

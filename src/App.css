@@ -54,7 +54,7 @@
 .grid-row-inner{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
   padding: 3px;
   border-radius: 3px;
 }
@@ -64,8 +64,9 @@
   display: inline-block;
   height: 20px;
   width: 2px;
-  margin: 1px;
+  margin: 1px 5px 1px 1px;
   background: #ecf0f1;
+
 }
 
 .grid-row-inner span.is-active{

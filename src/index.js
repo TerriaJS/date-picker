@@ -30,7 +30,8 @@ function getMonthForYear(yearData){
 
 function getDaysForMonth(monthData){
   // get all available days given a month in a year
-  return uniq(monthData.map(m=>m.date()));
+  // start from 1, so we need to change to 0 based
+  return uniq(monthData.map(m=>m.date()-1));
 }
 
 
