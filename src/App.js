@@ -46,50 +46,24 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){
-    this.createChart();
-  }
 
-
-  componentDidUpdate(){
-    this.createChart();
-  }
-
-
-  renderYearView(g, self){
-    const data = self.props.data;
+  renderYearGrid(){
+    const data = this.props.data;
     const years = Object.keys(data);
     const monthOfYear = Array.apply(null, {length: 12}).map(Number.call, Number);
-    const yeargroup = g.selectAll('.year').data(years).enter().append('g').attr('class', (d)=>d).attr("transform", (d, i)=>"translate(" + 40 + "," + i * 40 + ")").style("cursor", "pointer").on('click', d=>{
-      if(data[d]){
-        self.setState({
-          year: d,
-        })
-      }
-    });
-    yeargroup.append('text').text(d=>d).attr("transform","translate(-35, 15)");
-    yeargroup.selectAll('.bar').data((d, i)=>monthOfYear.map(m=>({year: d, month: m}))).enter().append('rect').attr('width', 5).attr('height', 20).attr('x', d=> d.month* 10 + 10).attr('fill', d=>data[d.year][d.month] ? '#2980b9' : '#ecf0f1');
+    return <div className='grid-grid'>{years.map(y=><div className='grid-row' key={y} onClick={()=>this.setState({year: y})}>
+             <span className='grid-label'>{y}</span>
+             <span className='grid-row-inner'>{monthOfYear.map(m=><span className={data[y][m] ? 'is-active' : ''} key={m} ></span>)}</span></div>)}
+           </div>
   }
 
-
-  renderMonthView(g, self){
-    const year = self.state.year;
-    const month = this.state.month;
-
-
-    const data = self.props.data;
-
-    const monthgroup = g.selectAll('.year').data(monthNames).enter().append('g').attr('class', (d)=>d).attr("transform", (d, i)=>"translate(" + 40 + "," + i * 40 + ")").style("cursor", "pointer").on('click', (d, i)=>{
-      if(data[self.state.year][i]){
-        self.setState({
-          month: i,
-        })
-      }
-    });
-    monthgroup.append('text').text(d=>d).attr("transform","translate(-35, 15)");
-
-    monthgroup.selectAll('.bar').data((m, i)=>daysInMonth(i+ 1, year).map(d=>({month: i, day: d}))).enter().append('rect').attr('width', 5).attr('height', 20).attr('x', d=> d.day* 10 + 10)
-    .attr('fill', d=>data[self.state.year][d.month] && data[self.state.year][d.month][d.day] ? '#2980b9' : '#ecf0f1');
+  renderMonthGrid(){
+    const data = this.props.data;
+    const year = this.state.year;
+    return <div className='grid-grid'>{monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
+             <span className='grid-label'>{m}</span>
+             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d] ? 'is-active' : ''} key={d} ></span>)}</span></div>)}
+           </div>
   }
 
 
@@ -109,7 +83,7 @@ class App extends Component {
       label: m.format('LTS')
     }))
 
-    return <div><select onChange={(event)=>this.setState({hour: event.target.value})}>{timeOptions.map(t=> <option key={t.label} value={t.value}>{t.label}</option>)}</select></div>
+    return <div className='hour-view'><select onChange={(event)=>this.setState({hour: event.target.value})}>{timeOptions.map(t=> <option key={t.label} value={t.value}>{t.label}</option>)}</select></div>
   }
 
 
@@ -117,14 +91,17 @@ class App extends Component {
   render() {
     console.log(this.props.data);
     return (
-      <div className="App">
-        <svg className='year' width= '100%' height='400px' ref={_=>this.yearDiv = _}></svg>
+      <div className="date-picker">
+        {!this.state.year && this.renderYearGrid()}
+        {this.state.year && !this.state.month && this.renderMonthGrid()}
         {(this.state.year && this.state.month) && this.renderDayView()}
         {(this.state.year && this.state.month && this.state.day) && this.renderHourView()}
-        <div>selected year: {this.state.year}</div>
-        <div>selected month: {monthNames[this.state.month]}</div>
-        <div>selected day: {this.state.day}</div>
-        <div>selected time: {this.state.hour}</div>
+        <div className='summray'>
+          <div>selected year: {this.state.year}</div>
+          <div>selected month: {monthNames[this.state.month]}</div>
+          <div>selected day: {this.state.day}</div>
+          <div>selected time: {this.state.hour}</div>
+        </div>
       </div>
     );
   }

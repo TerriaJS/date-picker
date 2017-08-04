@@ -4,21 +4,37 @@ body {
   font-family: sans-serif;
 }
 
-.react-datepicker{
-  margin-top: -400px;
-}
 
+.react-datepicker{
+  font-family: 'Josefin Sans', sans-serif !important;
+}
 
 .react-datepicker .react-datepicker__day{
   color: #fff;
-  background: #2980b9;
+  border: 1px solid #3498db;
+  border-radius: 3px;
 }
 
-.react-datepicker .react-datepicker__day--disabled{
-  background: #ecf0f1;
-  color: #000
+.react-datepicker .react-datepicker__day:hover{
+  background: #3498db;
+  color: #fff;
+}
+
+.react-datepicker .react-datepicker__day--disabled, .react-datepicker .react-datepicker__day--disabled:hover{
+  background: rgba(149, 165, 166,0.5);
+  color: rgba(52, 73, 94,1.0);
+  border: none;
 }
 
 .Select{
   color: #000;
+}
+
+
+.date-picker .react-datepicker__header, .date-picker .react-datepicker{
+  background: rgba(52, 73, 94,1.0);
+}
+
+.date-picker .react-datepicker__current-month, .date-picker .react-datepicker__day-name{
+  color: #fff;
 }

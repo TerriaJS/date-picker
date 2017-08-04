@@ -1,5 +1,7 @@
-.App {
-  text-align: center;
+.date-picker {
+  margin: 200px auto;
+  width: 300px;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .App-logo {
@@ -21,4 +23,55 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.grid-grid{
+  display: block;
+  width: 100%;
+  margin: 20px auto;
+  color: #fff;
+  background: rgba(52, 73, 94,1.0);
+  padding: 15px;
+  border-radius: 3px;
+
+}
+
+.grid-row:hover{
+  background: rgba(52, 152, 219,0.2);
+}
+
+.grid-label{
+  float: left;
+  padding: 3px;
+  display: inline-block;
+  width: 30px;
+}
+
+.grid-row{
+  cursor: pointer;
+}
+
+.grid-row-inner{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+
+.grid-row-inner span{
+  display: inline-block;
+  height: 20px;
+  width: 2px;
+  margin: 1px;
+  background: #ecf0f1;
+}
+
+.grid-row-inner span.is-active{
+  background: #3498db;
+}
+
+.hour-view{
+  margin: 10px 0;
 }
