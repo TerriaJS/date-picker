@@ -20,24 +20,34 @@ class App extends Component {
   constructor(props) {
    super(props);
    this.state = {
-     year: 2014,
-     month: 0,
+     year: null,
+     month: null,
      day: '',
      hour: ''};
  }
 
-  visualiseByYear(){
 
-  }
-
-  componentDidMount(){
+  createChart(){
     const data = this.props.data;
     const self = this;
     const years = Object.keys(data);
     const container = this.yearDiv;
+    d3.select(container).selectAll('*').remove();
     const g = d3.select(container).append('g').attr("transform", "translate(40, 40)");
-    // this.renderYearView(g, self);
-    this.renderMonthView(g, self);
+    if(!this.state.year && !this.state.month){
+      this.renderYearView(g, self);
+    } else{
+      this.renderMonthView(g, self);
+    }
+  }
+
+  componentDidMount(){
+    this.createChart();
+  }
+
+
+  componentDidUpdate(){
+    this.createChart();
   }
 
 
