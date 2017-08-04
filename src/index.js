@@ -38,14 +38,19 @@ function processData(data){
   const dates = data.map(d=>moment(d));
   const years = uniq(dates.map(d=>d.year()));
   const result = {};
+
+
+
   years.map(y=>{
     const yearData = getOneYear(y, dates);
-    result[y] = getMonthForYear(yearData).map(monthIndex => {
+    const monthinyear = {};
+      getMonthForYear(yearData).forEach(monthIndex => {
             const monthData = getOneMonth(yearData, monthIndex);
-            return {
-              [monthIndex]: getDaysForMonth(monthData).map(dayIndex => ({[dayIndex]: getOneDay(monthData, dayIndex)}))
-            }
-          })
+            const daysinmonth = {};
+            getDaysForMonth(monthData).forEach(dayIndex => daysinmonth[dayIndex] = getOneDay(monthData, dayIndex));
+            monthinyear[monthIndex] = daysinmonth
+          });
+      result[y] = monthinyear;
       })
 
   return result;

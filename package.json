@@ -8,7 +8,8 @@
   "dependencies": {
     "lodash.uniq": "^4.5.0",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-select": "^1.0.0-rc.5"
   },
   "scripts": {
     "start": "react-scripts start",
