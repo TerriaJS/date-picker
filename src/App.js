@@ -73,11 +73,12 @@ class App extends Component {
   renderDayView(){
     const days = Object.keys(this.props.data[this.state.year][this.state.month]);
     const daysTodisplay = days.map(d=>moment().date(d).month(this.state.month).year(this.state.year));
+    const selected = this.state.day ? moment().date(this.state.day).month(this.state.month).year(this.state.year) : null;
     return <DatePicker
                 inline
                 onChange={(value)=>this.setState({day: value.date()})}
                 includeDates={daysTodisplay}
-                selected={moment().date(this.state.day).month(this.state.month).year(this.state.year)}
+                selected={selected}
             />
   }
 
