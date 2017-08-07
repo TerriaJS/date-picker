@@ -60,7 +60,10 @@ class App extends Component {
   renderMonthGrid(){
     const data = this.props.data;
     const year = this.state.year;
-    return <div className='grid-grid'>{monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
+    return <div className='grid-grid'>
+              <div className='year-label'>{this.state.year}</div>
+
+              {monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
              <span className='grid-label'>{m}</span>
              <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d+1] ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
            </div>
@@ -74,6 +77,7 @@ class App extends Component {
                 inline
                 onChange={(value)=>this.setState({day: value.date()})}
                 includeDates={daysTodisplay}
+                selected={moment().date(this.state.day).month(this.state.month).year(this.state.year)}
             />
   }
 
@@ -94,12 +98,33 @@ class App extends Component {
     return <div className='hour-view'><select onChange={(event)=>this.setState({hour: event.target.value})}><option value=''>Select a time</option> {timeOptions.map(t=> <option key={t.label} value={t.value}>{t.label}</option>)}</select></div>
   }
 
+  goBack(){
+    if(this.state.hour){
+      this.setState({
+        hour: null
+      })
+    } else if(this.state.day){
+      this.setState({
+        day: null
+      })
+    }
+    else if(this.state.month){
+      this.setState({
+        month: null
+      })
+    }
+    else if(this.state.year){
+      this.setState({
+        year: null
+      })
+    }
+  }
 
 
   render() {
-    console.log(this.props.data);
     return (
       <div className="date-picker">
+      <div><button className='back' type='button' onClick={()=>this.goBack()}>Back</button></div>
         {!this.state.year && this.renderYearGrid()}
         {this.state.year && !this.state.month && this.renderMonthGrid()}
         {(this.state.year && this.state.month) && this.renderDayView()}

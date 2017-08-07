@@ -44,7 +44,7 @@
   float: left;
   padding: 3px;
   display: inline-block;
-  width: 30px;
+  width: 40px;
 }
 
 .grid-row{
@@ -75,4 +75,24 @@
 
 .hour-view{
   margin: 10px 0;
+}
+
+.back{
+  background: rgba(52, 73, 94,1.0);
+  color: #fff;
+  border: 0;
+  box-shadow: none;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+
+}
+
+.year-label{
+  text-align: center;
+}
+
+.back:hover{
+  cursor: pointer;
+  background: #3498db;
 }
