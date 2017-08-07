@@ -6,6 +6,9 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
+function defined(value) {
+        return value !== undefined && value !== null;
+    }
 
 
 function daysInMonth(month,year) {
@@ -27,8 +30,8 @@ class App extends Component {
    this.state = {
      year: null,
      month: null,
-     day: '',
-     hour: ''};
+     day: null,
+     hour: null};
  }
 
 
@@ -39,9 +42,9 @@ class App extends Component {
     const container = this.yearDiv;
     d3.select(container).selectAll('*').remove();
     const g = d3.select(container).append('g').attr("transform", "translate(40, 40)");
-    if(!this.state.year){
+    if(!defined(this.state.year)){
       this.renderYearView(g, self);
-    } else if(!this.state.month){
+    } else if(!defined(this.state.month)){
       this.renderMonthView(g, self);
     }
   }
@@ -63,9 +66,9 @@ class App extends Component {
     return <div className='grid-grid'>
               <div className='year-label'>{this.state.year}</div>
 
-              {monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
+              {monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=> defined(data[year][i]) && this.setState({month: i})}>
              <span className='grid-label'>{m}</span>
-             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d+1] ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
+             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ defined(data[year][i]) && defined(data[year][i][d+1]) ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
            </div>
   }
 
@@ -73,7 +76,7 @@ class App extends Component {
   renderDayView(){
     const days = Object.keys(this.props.data[this.state.year][this.state.month]);
     const daysTodisplay = days.map(d=>moment().date(d).month(this.state.month).year(this.state.year));
-    const selected = this.state.day ? moment().date(this.state.day).month(this.state.month).year(this.state.year) : null;
+    const selected = defined(this.state.day) ? moment().date(this.state.day).month(this.state.month).year(this.state.year) : null;
     return <DatePicker
                 inline
                 onChange={(value)=>this.setState({day: value.date()})}
@@ -100,21 +103,21 @@ class App extends Component {
   }
 
   goBack(){
-    if(this.state.hour){
+    if(defined(this.state.hour)){
       this.setState({
         hour: null
       })
-    } else if(this.state.day){
+    } else if(defined(this.state.day)){
       this.setState({
         day: null
       })
     }
-    else if(this.state.month){
+    else if(defined(this.state.month)){
       this.setState({
         month: null
       })
     }
-    else if(this.state.year){
+    else if(defined(this.state.year)){
       this.setState({
         year: null
       })
@@ -126,10 +129,10 @@ class App extends Component {
     return (
       <div className="date-picker">
       <div><button className='back' type='button' onClick={()=>this.goBack()}>Back</button></div>
-        {!this.state.year && this.renderYearGrid()}
-        {this.state.year && !this.state.month && this.renderMonthGrid()}
-        {(this.state.year && this.state.month) && this.renderDayView()}
-        {(this.state.year && this.state.month && this.state.day) && this.renderHourView()}
+        {!defined(this.state.year) && this.renderYearGrid()}
+        {defined(this.state.year) && !defined(this.state.month) && this.renderMonthGrid()}
+        {(defined(this.state.year) && defined(this.state.month)) && this.renderDayView()}
+        {(defined(this.state.year) && defined(this.state.month) && defined(this.state.day)) && this.renderHourView()}
         <div className='summray'>
           <div>selected year: {this.state.year}</div>
           <div>selected month: {monthNames[this.state.month]}</div>
