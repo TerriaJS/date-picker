@@ -62,7 +62,7 @@ class App extends Component {
     const year = this.state.year;
     return <div className='grid-grid'>{monthNames.map((m, i)=><div className='grid-row' key={m} onClick={()=>this.setState({month: i})}>
              <span className='grid-label'>{m}</span>
-             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d] ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
+             <span className='grid-row-inner'>{daysInMonth(i+ 1, year).map(d=><span className={ data[year][i] && data[year][i][d+1] ? `is-active ${d}` : d} key={d} ></span>)}</span></div>)}
            </div>
   }
 
@@ -77,13 +77,21 @@ class App extends Component {
             />
   }
 
+
+  utsTimeDisplay(m){
+    const hour = m.getUTCHours() < 10 ? `0 ${m.getUTCHours()}` : m.getUTCHours();
+    const minute = m.getUTCMinutes() < 10 ? `0 ${m.getUTCMinutes()}` : m.getUTCMinutes();
+    const second = m.getUTCSeconds() < 10 ? `0 ${m.getUTCSeconds()}` : m.getUTCSeconds();
+    return `${hour} : ${minute} : ${second}`
+  }
+
   renderHourView(){
     const timeOptions = this.props.data[this.state.year][this.state.month][this.state.day].map((m)=>({
-      value: m,
-      label: m.format('LTS')
+      value: m.toISOString(),
+      label: this.utsTimeDisplay(m)
     }))
 
-    return <div className='hour-view'><select onChange={(event)=>this.setState({hour: event.target.value})}>{timeOptions.map(t=> <option key={t.label} value={t.value}>{t.label}</option>)}</select></div>
+    return <div className='hour-view'><select onChange={(event)=>this.setState({hour: event.target.value})}><option value=''>Select a time</option> {timeOptions.map(t=> <option key={t.label} value={t.value}>{t.label}</option>)}</select></div>
   }
 
 
